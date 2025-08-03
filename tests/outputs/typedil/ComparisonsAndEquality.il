@@ -1,0 +1,16 @@
+let a: Int;
+a = 1: Int;
+let b: Int;
+b = 2: Int;
+let c: Bool;
+c = a < b: Bool;
+let d: Bool;
+d = a <= b: Bool;
+let e: Bool;
+e = a > b: Bool;
+let f: Bool;
+f = a >= b: Bool;
+let g: Bool;
+g = a == b: Bool;
+let h: Bool;
+h = a != b: Bool;

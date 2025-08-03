@@ -1,0 +1,9 @@
+let x;
+x = 1;
+print x;
+fn g(a) {
+  print a;
+  return a + 1;
+}
+x = g(41);
+print x;

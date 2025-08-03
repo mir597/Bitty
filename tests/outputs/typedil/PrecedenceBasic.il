@@ -1,0 +1,13 @@
+let x: Number;
+__t0 = 2 * 3: Int;
+x = 1 + __t0: Int;
+let y: Int;
+__t1 = 1 + 2: Int;
+y = __t1 * 3: Int;
+let z: Int;
+__t2 = 1 + 2: Int;
+__t3 = 3 * 4: Int;
+z = __t2 + __t3: Int;
+__t4 = x * y: Number;
+__t5 = z / 2: Float;
+x = __t4 + __t5: Float;

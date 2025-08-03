@@ -1,0 +1,16 @@
+let a;
+a = 0;
+let b;
+b = 42;
+let c;
+c = 3.1415899999999999;
+let t;
+t = true;
+let f;
+f = false;
+let n;
+n = nil;
+let s;
+s = "hello world";
+a = 42;
+s = "x";

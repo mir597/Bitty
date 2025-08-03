@@ -1,0 +1,24 @@
+fn sqrt_newton(x) {
+  if (x == 0) { return 0.0; }
+  let g = x * 1.0;
+  let i = 0;
+  while (i < 20) {
+    g = 0.5 * (g + x / g);
+    i = i + 1;
+  }
+  return g;
+}
+
+fn sqrt_sum(n) {
+  let i = 1;
+  let s = 0.0;
+  while (i <= n) {
+    s = s + sqrt_newton(i);
+    i = i + 1;
+  }
+  return s;
+}
+
+let n = 10000;
+let s = sqrt_sum(n);
+print s;

@@ -1,0 +1,75 @@
+fn sqrt_newton(x) {
+  if (x == 0) { return 0.0; }
+  let g = x * 1.0;
+  let i = 0;
+  while (i < 12) {
+    g = 0.5 * (g + x / g);
+    i = i + 1;
+  }
+  return g;
+}
+
+fn nbody3(steps) {
+  let G = 1.0;
+  let dt = 0.01;
+
+  let ax = -1.0; let ay = 0.0;  let avx = 0.0;  let avy = 0.5;  let am = 1.0;
+  let bx =  1.0; let by = 0.0;  let bvx = 0.0;  let bvy = -0.5; let bm = 1.0;
+  let cx =  0.0; let cy = 0.5;  let cvx = -0.5; let cvy = 0.0;  let cm = 1.0;
+
+  let s = 0;
+  while (s < steps) {
+    let fax = 0.0; let fay = 0.0;
+    let fbx = 0.0; let fby = 0.0;
+    let fcx = 0.0; let fcy = 0.0;
+
+    let dx = bx - ax; let dy = by - ay;
+    let r2 = dx*dx + dy*dy;
+    let inv_r = 1.0 / sqrt_newton(r2);
+    let inv_r3 = inv_r * inv_r * inv_r;
+    let f = G * inv_r3;
+    fax = fax + f * bm * dx; fay = fay + f * bm * dy;
+    fbx = fbx - f * am * dx; fby = fby - f * am * dy;
+
+    dx = cx - ax; dy = cy - ay;
+    r2 = dx*dx + dy*dy;
+    inv_r = 1.0 / sqrt_newton(r2);
+    inv_r3 = inv_r * inv_r * inv_r;
+    f = G * inv_r3;
+    fax = fax + f * cm * dx; fay = fay + f * cm * dy;
+    fcx = fcx - f * am * dx; fcy = fcy - f * am * dy;
+
+    dx = cx - bx; dy = cy - by;
+    r2 = dx*dx + dy*dy;
+    inv_r = 1.0 / sqrt_newton(r2);
+    inv_r3 = inv_r * inv_r * inv_r;
+    f = G * inv_r3;
+    fbx = fbx + f * cm * dx; fby = fby + f * cm * dy;
+    fcx = fcx - f * bm * dx; fcy = fcy - f * bm * dy;
+
+    avx = avx + dt * fax / am;  avy = avy + dt * fay / am;
+    bvx = bvx + dt * fbx / bm;  bvy = bvy + dt * fby / bm;
+    cvx = cvx + dt * fcx / cm;  cvy = cvy + dt * fcy / cm;
+
+    ax = ax + dt * avx; ay = ay + dt * avy;
+    bx = bx + dt * bvx; by = by + dt * bvy;
+    cx = cx + dt * cvx; cy = cy + dt * cvy;
+
+    s = s + 1;
+  }
+
+  let ke = 0.5*am*(avx*avx + avy*avy)
+         + 0.5*bm*(bvx*bvx + bvy*bvy)
+         + 0.5*cm*(cvx*cvx + cvy*cvy);
+  let dx = bx - ax; let dy = by - ay;
+  let pe = -G * am*bm / sqrt_newton(dx*dx + dy*dy);
+  dx = cx - ax; dy = cy - ay;
+  pe = pe - G * am*cm / sqrt_newton(dx*dx + dy*dy);
+  dx = cx - bx; dy = cy - by;
+  pe = pe - G * bm*cm / sqrt_newton(dx*dx + dy*dy);
+  return ke + pe;
+}
+
+let steps = 5000;
+let e = nbody3(steps);
+print e;

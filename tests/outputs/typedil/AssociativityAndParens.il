@@ -1,0 +1,15 @@
+let a: Int;
+__t0 = 10 - 3: Int;
+a = __t0 - 2: Int;
+let b: Float;
+__t1 = 10 / 3: Float;
+b = __t1 / 2: Float;
+let c: Float;
+__t2 = b - 1: Float;
+c = a - __t2: Float;
+let d: Float;
+__t3 = a - b: Float;
+d = __t3 - 1: Float;
+let e: Int;
+__t4 = 2 + 4: Int;
+e = 3 * __t4: Int;

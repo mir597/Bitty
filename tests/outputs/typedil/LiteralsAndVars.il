@@ -1,0 +1,16 @@
+let a: Int;
+a = 0: Int;
+let b: Int;
+b = 42: Int;
+let c: Float;
+c = 3.1415899999999999: Float;
+let t: Bool;
+t = true: Bool;
+let f: Bool;
+f = false: Bool;
+let n: Nil;
+n = nil: Nil;
+let s: String;
+s = "hello world": String;
+a = b: Int;
+s = "x": String;

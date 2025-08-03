@@ -1,0 +1,16 @@
+fn pi_leibniz(n) {
+  let k = 0;
+  let s = 0.0;
+  let sign = 1.0;
+  while (k < n) {
+    let denom = 2*k + 1;
+    s = s + sign * (1.0 / denom);
+    sign = -sign;
+    k = k + 1;
+  }
+  return 4.0 * s;
+}
+
+let n = 130000;
+let p = pi_leibniz(n);
+print p;

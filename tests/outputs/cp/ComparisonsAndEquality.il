@@ -1,0 +1,16 @@
+let a;
+a = 1;
+let b;
+b = 2;
+let c;
+c = true;
+let d;
+d = true;
+let e;
+e = false;
+let f;
+f = false;
+let g;
+g = false;
+let h;
+h = true;

@@ -1,0 +1,8 @@
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+
+find_dependency(glm CONFIG REQUIRED)
+find_dependency(antlr4-runtime REQUIRED)
+
+include("${CMAKE_CURRENT_LIST_DIR}/BittyTargets.cmake")
