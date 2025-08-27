@@ -1,0 +1,6 @@
+let a;
+a = 5;
+print a + a;
+print a + a;
+a = 6;
+print a + a;

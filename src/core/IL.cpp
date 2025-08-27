@@ -286,4 +286,102 @@ std::string toSource(const Program& p) {
   }
   return oss.str();
 }
+
+std::unique_ptr<Expression> cloneExpr(const Expression& e) {
+  auto out = std::make_unique<Expression>();
+  out->type = e.type;
+  out->node = std::visit(
+      [&](auto const& node) -> ExpressionNode {
+        using T = std::decay_t<decltype(node)>;
+        if constexpr (std::is_same_v<T, LiteralExpr>) {
+          return node;
+        } else if constexpr (std::is_same_v<T, VariableExpr>) {
+          return node;
+        } else if constexpr (std::is_same_v<T, UnaryExpr>) {
+          return UnaryExpr{.op = node.op, .right = cloneExpr(*node.right)};
+        } else if constexpr (std::is_same_v<T, BinaryExpr>) {
+          return BinaryExpr{.op = node.op,
+                            .left = cloneExpr(*node.left),
+                            .right = cloneExpr(*node.right)};
+        } else {
+          static_assert(!sizeof(T*),
+                        "Unhandled IL::Expression alternative in cloneExpr()");
+        }
+      },
+      e.node);
+  return out;
+}
+
+std::unique_ptr<Statement> cloneStmt(const Statement& s) {
+  auto out = std::make_unique<Statement>();
+  out->type = s.type;
+  out->node = std::visit(
+      [&](auto const& st) -> StatementNode {
+        using T = std::decay_t<decltype(st)>;
+        if constexpr (std::is_same_v<T, PrintStmt>) {
+          return PrintStmt{cloneExpr(*st.expression)};
+        } else if constexpr (std::is_same_v<T, BlockStmt>) {
+          std::vector<std::unique_ptr<Statement>> stmts;
+          stmts.reserve(st.statements.size());
+          for (auto const& sp : st.statements) {
+            stmts.push_back(cloneStmt(*sp));
+          }
+          return BlockStmt{std::move(stmts)};
+        } else if constexpr (std::is_same_v<T, VarDeclStmt>) {
+          return st;
+        } else if constexpr (std::is_same_v<T, AssignmentStmt>) {
+          return AssignmentStmt{.targetName = st.targetName,
+                                .value = cloneExpr(*st.value)};
+        } else if constexpr (std::is_same_v<T, IfStmt>) {
+          return IfStmt{.condition = cloneExpr(*st.condition),
+                        .thenBranch = cloneStmt(*st.thenBranch),
+                        .elseBranch = st.elseBranch ? cloneStmt(*st.elseBranch)
+                                                    : nullptr};
+        } else if constexpr (std::is_same_v<T, WhileStmt>) {
+          return WhileStmt{.condition = cloneExpr(*st.condition),
+                           .body = cloneStmt(*st.body)};
+        } else if constexpr (std::is_same_v<T, ReturnStmt>) {
+          return ReturnStmt{.value = st.value ? cloneExpr(*st.value) : nullptr};
+        } else if constexpr (std::is_same_v<T, CallStmt>) {
+          std::vector<std::unique_ptr<Expression>> arguments;
+          arguments.reserve(st.arguments.size());
+          for (auto const& arg : st.arguments) {
+            arguments.push_back(cloneExpr(*arg));
+          }
+          return CallStmt{.targetName = st.targetName,
+                          .calleeName = st.calleeName,
+                          .arguments = std::move(arguments)};
+        } else if constexpr (std::is_same_v<T, FuncDeclStmt>) {
+          return FuncDeclStmt{.name = st.name,
+                              .params = st.params,
+                              .paramTypes = st.paramTypes,
+                              .returnType = st.returnType,
+                              .body = cloneBlock(*st.body)};
+        } else {
+          static_assert(!sizeof(T*),
+                        "Unhandled IL::Statement alternative in cloneStmt()");
+        }
+      },
+      s.node);
+  return out;
+}
+
+std::unique_ptr<BlockStmt> cloneBlock(const BlockStmt& b) {
+  auto out = std::make_unique<BlockStmt>();
+  out->statements.reserve(b.statements.size());
+  for (auto const& sp : b.statements) {
+    out->statements.push_back(cloneStmt(*sp));
+  }
+  return out;
+}
+
+Program cloneProgram(const Program& p) {
+  Program q;
+  q.statements.reserve(p.statements.size());
+  for (auto const& sp : p.statements) {
+    q.statements.push_back(cloneStmt(*sp));
+  }
+  return q;
+}
+
 }  // namespace bitty::IL

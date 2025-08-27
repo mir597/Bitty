@@ -14,7 +14,13 @@
 #include "antlr4-runtime.h"
 #include "core/AST.hpp"
 #include "core/ASTBuilder.hpp"
+#include "core/BCInterpreter.hpp"
+#include "core/Bytecode.hpp"
+#include "core/ConstantPropagation.hpp"
 #include "core/IL.hpp"
+#include "core/IL2Bytecode.hpp"
+#include "core/ILOptimize.hpp"
+#include "core/Lowering.hpp"
 
 using namespace bitty;
 
@@ -347,4 +353,74 @@ inline std::string canonicalizeTemps(const std::string& s) {
 
 inline std::string normalizeILText(std::string s) {
   return canonicalizeTemps(normalizeWhitespace(std::move(s)));
+}
+
+struct PipelineOut {
+  AST::Program ast;
+  IL::Program ilBefore;
+  IL::Program ilAfter;
+  BC::Module mod;
+  std::string outText;
+  std::string ilBeforeSrc;
+  std::string ilAfterSrc;
+  std::string asmText;
+};
+
+// normalize volatile gensyms like _cse123 -> _cse$1 to make snapshot-stable
+static std::string normalizeGensyms(const std::string& s) {
+  static const std::regex rx(R"(_(cse|inl_p|inl_v)\d+)");
+  std::unordered_map<std::string, std::string> map;
+  int n = 1;
+  std::string out = s;
+  for (auto it = std::sregex_iterator(s.begin(), s.end(), rx);
+       it != std::sregex_iterator(); ++it) {
+    std::string name = it->str();
+    if (!map.count(name)) {
+      std::string tag = name.substr(1);
+      std::string base = tag.substr(0, tag.find_first_of("0123456789"));
+      map[name] = "_" + base + "$" + std::to_string(n++);
+    }
+  }
+  for (auto const& kv : map) {
+    out = std::regex_replace(out, std::regex(kv.first), kv.second);
+  }
+  return out;
+}
+
+static int countOp(const BC::Module& m, BC::Op op) {
+  int c = 0;
+  for (auto const& f : m.functions) {
+    for (auto const& ins : f.code) {
+      if (ins.op == op) {
+        ++c;
+      }
+    }
+  }
+  return c;
+}
+
+static bool hasFunc(const BC::Module& m, const std::string& name) {
+  for (auto const& f : m.functions) {
+    if (f.name == name) {
+      return true;
+    }
+  }
+  return false;
+}
+
+static PipelineOut runFromSource(const std::string& src) {
+  PipelineOut P;
+  P.ast = parseToAST(src);
+  P.ilBefore = IL::lowerFromAST(P.ast);
+  P.ilBeforeSrc = IL::toSource(P.ilBefore);
+
+  P.ilAfter = IL::cloneProgram(P.ilBefore);
+  IL::optimizeProgram(P.ilAfter);
+  P.ilAfterSrc = IL::toSource(P.ilAfter);
+
+  P.mod = BC::compileFromIL(P.ilAfter);
+  P.asmText = BC::disassemble(P.mod);
+  auto R = BC::runBytecode(P.mod);
+  P.outText = R.stdout_text;
+  return P;
 }

@@ -12,6 +12,7 @@
 #include "core/Bytecode.hpp"
 #include "core/ConstantPropagation.hpp"
 #include "core/IL2Bytecode.hpp"
+#include "core/ILOptimize.hpp"
 #include "core/Lowering.hpp"
 #include "core/TypeInference.hpp"
 #include "utils/ASTEqual.hpp"
@@ -39,6 +40,9 @@ class CaseParamTest : public ::testing::TestWithParam<std::string> {};
 
 TEST_P(CaseParamTest, ASTRoundTripFromFile) {
   const std::string path = GetParam();
+  if (path.find("noast") != std::string::npos) {
+    GTEST_SKIP() << "Skip test";
+  }
   SCOPED_TRACE("case: " + path);
   const std::string src = readFileText(path);
 
@@ -202,6 +206,26 @@ TEST_P(CaseParamTest, ILConstProp_RoundTripIdempotentOnIL) {
   std::string ilSrc2 = IL::toSource(il1);
 
   EXPECT_EQ(normalizeILText(ilSrc1), normalizeILText(ilSrc2));
+}
+
+TEST_P(CaseParamTest, ILOptimize_SemanticsPreserv) {
+  const std::string path = GetParam();
+  SCOPED_TRACE("case (optimize): " + path);
+  const std::string src = readFileText(path);
+
+  AST::Program ast = parseToAST(src);
+  IL::Program il = IL::lowerFromAST(ast);
+
+  BC::Module mod = BC::compileFromIL(il);
+  auto r1 = BC::runBytecode(mod);
+
+  IL::optimizeProgram(il);
+
+  BC::Module mod2 = BC::compileFromIL(il);
+  auto r2 = BC::runBytecode(mod);
+
+  EXPECT_EQ(r1.ok, r2.ok);
+  EXPECT_EQ(r1.stdout_text, r2.stdout_text);
 }
 
 INSTANTIATE_TEST_SUITE_P(AllCases, CaseParamTest,

@@ -31,6 +31,7 @@ target_sources(core PRIVATE
   core/ConstantPropagation.cpp
   core/BCInterpreter.cpp  
   core/LiteralValue.cpp
+  core/ILOptimize.cpp
 )
 
 add_library(bitty::core ALIAS core)

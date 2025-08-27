@@ -1,0 +1,4 @@
+fn add1(x) { return x + 1; }
+let a = 41;
+let r = add1(a);
+print r;

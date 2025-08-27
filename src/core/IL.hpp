@@ -70,7 +70,7 @@ struct FuncDeclStmt {
   std::vector<std::string> params;
   std::unique_ptr<BlockStmt> body;
 
-  std::vector<Ty::Tag> paramTypes;
+  std::vector<Ty::Tag> paramTypes{};
   Ty::Tag returnType = Ty::Tag::Unknown;
 };
 
@@ -96,5 +96,10 @@ struct Program {
 
 std::string toSource(const Program& program);
 std::string toString(const Expression& e);
+
+std::unique_ptr<Expression> cloneExpr(const Expression& e);
+std::unique_ptr<Statement> cloneStmt(const Statement& s);
+std::unique_ptr<BlockStmt> cloneBlock(const BlockStmt& b);
+Program cloneProgram(const Program& p);
 
 }  // namespace bitty::IL

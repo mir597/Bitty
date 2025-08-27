@@ -15,6 +15,7 @@
 #include "core/Bytecode.hpp"
 #include "core/ConstantPropagation.hpp"
 #include "core/IL2Bytecode.hpp"
+#include "core/ILOptimize.hpp"
 #include "core/Interpreter.hpp"
 #include "core/Lowering.hpp"
 #include "core/TypeInference.hpp"
@@ -78,6 +79,7 @@ int main(int argc, char** argv) {
   enum Mode { EMPTY, IL, TYPEDIL, AST, BC, RUN, BCRUN };
   Mode mode = Mode::EMPTY;
   bool constantPropagation = false;
+  bool optimize = false;
   std::string inputPath;
 
   for (int i = 1; i < argc; ++i) {
@@ -89,6 +91,8 @@ int main(int argc, char** argv) {
       mode = Mode::IL;
     } else if (arg == "--cp") {
       constantPropagation = true;
+    } else if (arg == "--opt") {
+      optimize = true;
     } else if (arg == "--typedil") {
       mode = Mode::TYPEDIL;
     } else if (arg == "--bc") {
@@ -130,6 +134,9 @@ int main(int argc, char** argv) {
       if (constantPropagation) {
         IL::propagateConstants(il);
       }
+      if (optimize) {
+        IL::optimizeProgram(il);
+      }
       std::string ilSource = IL::toSource(il);
       std::cout << ilSource << std::flush;
     } else if (mode == Mode::TYPEDIL) {
@@ -138,6 +145,9 @@ int main(int argc, char** argv) {
       if (constantPropagation) {
         IL::propagateConstants(il);
       }
+      if (optimize) {
+        IL::optimizeProgram(il);
+      }
       std::string ilSource = IL::toSource(il);
       std::cout << ilSource << std::flush;
     } else if (mode == Mode::BC) {
@@ -145,12 +155,18 @@ int main(int argc, char** argv) {
       if (constantPropagation) {
         IL::propagateConstants(il);
       }
+      if (optimize) {
+        IL::optimizeProgram(il);
+      }
       BC::Module mod = BC::compileFromIL(il);
       std::cout << BC::disassemble(mod) << std::flush;
     } else if (mode == Mode::BCRUN) {
       IL::Program il = IL::lowerFromAST(ast);
       if (constantPropagation) {
         IL::propagateConstants(il);
+      }
+      if (optimize) {
+        IL::optimizeProgram(il);
       }
       BC::Module mod = BC::compileFromIL(il);
       ExecResult r = BC::runBytecode(mod);
