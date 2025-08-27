@@ -1,0 +1,10 @@
+let a;
+a = 1;
+let b;
+b = 2;
+b = 3;
+a = 3;
+let _cse1;
+_cse1 = a + 1;
+b = _cse1;
+a = _cse1;

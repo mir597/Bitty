@@ -1,0 +1,16 @@
+let a;
+a = 1;
+let b;
+b = 2;
+let c;
+c = a < b;
+let d;
+d = a <= b;
+let e;
+e = a > b;
+let f;
+f = a >= b;
+let g;
+g = a == b;
+let h;
+h = a != b;

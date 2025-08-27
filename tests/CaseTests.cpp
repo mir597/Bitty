@@ -163,6 +163,17 @@ TEST_P(CaseParamTest, ILTypeInferenceSnapshot) {
   });
 }
 
+TEST_P(CaseParamTest, ILOptimizationSnapshot) {
+  const std::string path = GetParam();
+  snapshot(path, "opt", [&](const AST::Program& ast) -> std::string {
+    IL::Program il = IL::lowerFromAST(ast);
+    IL::optimizeProgram(il);
+    auto vr = IL::verify(il, /*strictSymbols=*/false);
+    EXPECT_TRUE(vr.ok) << (vr.errors.empty() ? "" : vr.errors.front());
+    return IL::toSource(il);
+  });
+}
+
 TEST_P(CaseParamTest, ILConstProp_SemanticsPreserv) {
   const std::string path = GetParam();
   SCOPED_TRACE("case (const-prop): " + path);
