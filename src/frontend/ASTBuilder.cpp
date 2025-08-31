@@ -1,11 +1,11 @@
-#include "core/ASTBuilder.hpp"
+#include "frontend/ASTBuilder.hpp"
 
 #include <cstdlib>
 #include <stdexcept>
 #include <utility>
 
-#include "core/Common.hpp"
-#include "core/LiteralValue.hpp"
+#include "common/Common.hpp"
+#include "common/LiteralValue.hpp"
 
 using Parser = bitty::parser::BittyParser;
 using antlr4::tree::TerminalNode;

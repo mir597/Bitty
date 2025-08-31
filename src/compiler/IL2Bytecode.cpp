@@ -1,11 +1,11 @@
-#include "core/IL2Bytecode.hpp"
+#include "compiler/IL2Bytecode.hpp"
 
 #include <functional>
 #include <stdexcept>
 #include <unordered_map>
 #include <unordered_set>
 
-#include "core/LiteralValue.hpp"
+#include "common/LiteralValue.hpp"
 
 using namespace bitty;
 using namespace bitty::BC;

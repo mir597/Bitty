@@ -1,4 +1,4 @@
-#include "core/ConstantPropagation.hpp"
+#include "compiler/ConstantPropagation.hpp"
 
 #include <cassert>
 #include <unordered_map>
@@ -6,8 +6,8 @@
 #include <utility>
 #include <vector>
 
-#include "core/IL.hpp"
-#include "core/LiteralValue.hpp"  // LiteralValue, op_unary/op_binary, isTruthy
+#include "common/IL.hpp"
+#include "common/LiteralValue.hpp"  // LiteralValue, op_unary/op_binary, isTruthy
 
 using namespace bitty;
 

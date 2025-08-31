@@ -1,4 +1,4 @@
-#include "core/Lowering.hpp"
+#include "compiler/Lowering.hpp"
 
 #include <sstream>
 #include <stdexcept>
@@ -6,8 +6,8 @@
 #include <unordered_set>
 #include <vector>
 
-#include "core/Common.hpp"
-#include "core/LiteralValue.hpp"
+#include "common/Common.hpp"
+#include "common/LiteralValue.hpp"
 
 using namespace bitty;
 

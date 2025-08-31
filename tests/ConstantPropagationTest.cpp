@@ -2,13 +2,13 @@
 
 #include <string>
 
-#include "core/AST.hpp"
+#include "common/AST.hpp"
+#include "common/Bytecode.hpp"
+#include "common/IL.hpp"
+#include "compiler/ConstantPropagation.hpp"
+#include "compiler/IL2Bytecode.hpp"
+#include "compiler/Lowering.hpp"
 #include "core/BCInterpreter.hpp"
-#include "core/Bytecode.hpp"
-#include "core/ConstantPropagation.hpp"
-#include "core/IL.hpp"
-#include "core/IL2Bytecode.hpp"
-#include "core/Lowering.hpp"
 #include "utils/ILVerify.hpp"
 #include "utils/TestUtils.hpp"
 

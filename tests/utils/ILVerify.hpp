@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#include "core/IL.hpp"
+#include "common/IL.hpp"
 
 namespace bitty::IL {
 struct VerifyResult {

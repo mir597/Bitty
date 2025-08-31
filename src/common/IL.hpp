@@ -8,8 +8,8 @@
 #include <variant>
 #include <vector>
 
-#include "core/LiteralValue.hpp"
-#include "core/Type.hpp"
+#include "common/LiteralValue.hpp"
+#include "common/Type.hpp"
 
 namespace bitty::IL {
 

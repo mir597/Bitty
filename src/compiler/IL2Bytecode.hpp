@@ -1,6 +1,6 @@
 #pragma once
-#include "core/Bytecode.hpp"
-#include "core/IL.hpp"
+#include "common/Bytecode.hpp"
+#include "common/IL.hpp"
 
 namespace bitty::BC {
 // IL -> Bytecode(Module)

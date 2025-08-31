@@ -1,4 +1,4 @@
-#include "Interpreter.hpp"
+#include "interpreter/Interpreter.hpp"
 
 #include <cmath>
 #include <cstdint>
@@ -11,7 +11,7 @@
 #include <unordered_map>
 #include <variant>
 
-#include "core/LiteralValue.hpp"
+#include "common/LiteralValue.hpp"
 
 using namespace bitty;
 using Value = LiteralValue;

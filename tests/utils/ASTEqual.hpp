@@ -7,8 +7,8 @@
 
 #include "BittyLexer.h"
 #include "BittyParser.h"
-#include "core/AST.hpp"
-#include "core/ASTBuilder.hpp"
+#include "common/AST.hpp"
+#include "frontend/ASTBuilder.hpp"
 
 using namespace bitty;
 

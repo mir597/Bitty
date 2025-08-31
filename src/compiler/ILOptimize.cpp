@@ -1,4 +1,4 @@
-#include "core/ILOptimize.hpp"
+#include "compiler/ILOptimize.hpp"
 
 #include <algorithm>
 #include <functional>
@@ -12,7 +12,7 @@
 #include <variant>
 #include <vector>
 
-#include "core/LiteralValue.hpp"
+#include "common/LiteralValue.hpp"
 
 // NOTE: This file only uses public IL structs (simple POD-like nodes) so that
 // extending the IR later remains straightforward. Helpers are factored out.

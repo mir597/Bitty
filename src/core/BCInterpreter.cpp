@@ -4,9 +4,9 @@
 #include <stdexcept>
 #include <vector>
 
-#include "core/Bytecode.hpp"
-#include "core/Interpreter.hpp"
-#include "core/LiteralValue.hpp"
+#include "common/Bytecode.hpp"
+#include "common/LiteralValue.hpp"
+#include "interpreter/Interpreter.hpp"
 
 namespace bitty::BC {
 using Value = LiteralValue;

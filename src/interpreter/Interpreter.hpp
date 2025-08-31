@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#include "core/AST.hpp"
+#include "common/AST.hpp"
 
 struct ExecResult {
   bool ok = true;

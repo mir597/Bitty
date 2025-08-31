@@ -6,13 +6,13 @@
 #include <string>
 #include <unordered_map>
 
-#include "core/AST.hpp"
-#include "core/ASTBuilder.hpp"
+#include "common/AST.hpp"
+#include "common/Bytecode.hpp"
+#include "common/IL.hpp"
+#include "compiler/IL2Bytecode.hpp"
+#include "compiler/ILOptimize.hpp"
 #include "core/BCInterpreter.hpp"
-#include "core/Bytecode.hpp"
-#include "core/IL.hpp"
-#include "core/IL2Bytecode.hpp"
-#include "core/ILOptimize.hpp"
+#include "frontend/ASTBuilder.hpp"
 #include "utils/TestUtils.hpp"
 
 using namespace bitty;

@@ -1,9 +1,9 @@
-#include "core/Bytecode.hpp"
+#include "common/Bytecode.hpp"
 
 #include <iomanip>
 #include <sstream>
 
-#include "core/Interpreter.hpp"  // toStringRuntime()
+#include "interpreter/Interpreter.hpp"
 
 namespace bitty::BC {
 

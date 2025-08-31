@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#include "core/LiteralValue.hpp"
+#include "common/LiteralValue.hpp"
 
 namespace bitty::BC {
 

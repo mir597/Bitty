@@ -5,9 +5,9 @@
 #include "BittyLexer.h"
 #include "BittyParser.h"
 #include "antlr4-runtime.h"
-#include "core/AST.hpp"
-#include "core/ASTBuilder.hpp"
-#include "core/Interpreter.hpp"
+#include "common/AST.hpp"
+#include "frontend/ASTBuilder.hpp"
+#include "interpreter/Interpreter.hpp"
 #include "utils/TestUtils.hpp"
 
 using namespace bitty;

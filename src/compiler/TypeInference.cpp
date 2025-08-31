@@ -1,4 +1,4 @@
-#include "core/TypeInference.hpp"
+#include "compiler/TypeInference.hpp"
 
 #include <algorithm>
 #include <cassert>
@@ -9,10 +9,10 @@
 #include <unordered_set>
 #include <vector>
 
-#include "core/Common.hpp"
-#include "core/IL.hpp"
-#include "core/LiteralValue.hpp"
-#include "core/Type.hpp"
+#include "common/Common.hpp"
+#include "common/IL.hpp"
+#include "common/LiteralValue.hpp"
+#include "common/Type.hpp"
 
 using namespace bitty;
 

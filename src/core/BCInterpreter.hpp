@@ -1,8 +1,8 @@
 #pragma once
 #include <string>
 
-#include "core/Bytecode.hpp"
-#include "core/Interpreter.hpp"
+#include "common/Bytecode.hpp"
+#include "interpreter/Interpreter.hpp"
 
 namespace bitty::BC {
 

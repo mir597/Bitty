@@ -8,10 +8,10 @@ antlr_target(
 
 # Common
 add_library(common STATIC
-  core/AST.cpp
-  core/IL.cpp
-  core/Bytecode.cpp
-  core/LiteralValue.cpp
+  common/AST.cpp
+  common/IL.cpp
+  common/Bytecode.cpp
+  common/LiteralValue.cpp
 )
 add_library(bitty::common ALIAS common)
 
@@ -26,7 +26,7 @@ target_compile_options(common PRIVATE -Wall -Wextra -Wpedantic)
 # Parser + AST Builder
 add_library(frontend STATIC
   ${ANTLR_BittyParser_CXX_OUTPUTS}
-  core/ASTBuilder.cpp
+  frontend/ASTBuilder.cpp
 )
 add_library(bitty::frontend ALIAS frontend)
 
@@ -49,7 +49,7 @@ target_compile_options(frontend PRIVATE -Wall -Wextra -Wpedantic)
 
 # AST Interpreter
 add_library(ast_interpreter STATIC
-  core/Interpreter.cpp
+  interpreter/Interpreter.cpp
 )
 add_library(bitty::ast_interpreter ALIAS ast_interpreter)
 
@@ -63,11 +63,11 @@ target_compile_options(ast_interpreter PRIVATE -Wall -Wextra -Wpedantic)
 
 # IL Translation/Optimization + BC Translation
 add_library(compiler STATIC
-  core/Lowering.cpp
-  core/TypeInference.cpp
-  core/ConstantPropagation.cpp
-  core/ILOptimize.cpp
-  core/IL2Bytecode.cpp
+  compiler/Lowering.cpp
+  compiler/TypeInference.cpp
+  compiler/ConstantPropagation.cpp
+  compiler/ILOptimize.cpp
+  compiler/IL2Bytecode.cpp
 )
 add_library(bitty::compiler ALIAS compiler)
 

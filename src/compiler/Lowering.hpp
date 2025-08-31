@@ -1,6 +1,6 @@
 #pragma once
-#include "core/AST.hpp"
-#include "core/IL.hpp"
+#include "common/AST.hpp"
+#include "common/IL.hpp"
 
 namespace bitty::IL {
 Program lowerFromAST(const AST::Program& ast);

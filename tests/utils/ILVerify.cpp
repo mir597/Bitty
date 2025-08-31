@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include "core/IL.hpp"
+#include "common/IL.hpp"
 
 namespace bitty::IL {
 namespace {
