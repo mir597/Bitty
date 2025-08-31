@@ -16,6 +16,7 @@ option(BITTY_PACKAGING "Generate installable CMake package (export targets)" OFF
 
 include(FetchContent)
 
+# ANTLR tool
 find_package(Java COMPONENTS Runtime REQUIRED)
 if(Java_VERSION_STRING VERSION_LESS "11")
   message(FATAL_ERROR
@@ -31,6 +32,7 @@ if(NOT EXISTS "${ANTLR_JAR}")
 endif()
 set(ANTLR_EXECUTABLE "${ANTLR_JAR}" CACHE FILEPATH "" FORCE)
 
+# Use FindANTLR.cmake
 set(_LOCAL_FINDANTLR "${PROJECT_SOURCE_DIR}/cmake/FindANTLR.cmake")
 if(EXISTS "${_LOCAL_FINDANTLR}")
   list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
@@ -47,6 +49,7 @@ else()
 endif()
 include(FindANTLR)
 
+# Dependencies
 if(BITTY_PACKAGING AND BITTY_FETCH_DEPENDENCIES)
   message(FATAL_ERROR
     "If BITTY_PACKAGING=ON, it must be BITTY_FETCH_DEPENDENCIES=OFF.")
@@ -66,7 +69,6 @@ else()
   endif()
 endif()
 
-
 if(BITTY_FETCH_DEPENDENCIES OR BITTY_ANTLR_FETCH)
   FetchContent_Declare(
     antlr4_runtime
@@ -81,26 +83,31 @@ else()
   find_package(antlr4-runtime REQUIRED)
 endif()
 
+# LTO (IPO) on Release
 include(CheckIPOSupported)
 check_ipo_supported(RESULT _ipo_ok OUTPUT _ipo_msg)
 if(_ipo_ok)
   set(CMAKE_INTERPROCEDURAL_OPTIMIZATION_RELEASE ON)
 endif()
 
+# Project sources
 add_subdirectory(src)
 
+# Packaging
 if(BITTY_PACKAGING)
   include(GNUInstallDirs)
   include(CMakePackageConfigHelpers)
 
-  install(TARGETS parser core
+  install(TARGETS
+    common
+    frontend
+    ast_interpreter
+    compiler
+    bc_interpreter
+    cli
     EXPORT BittyTargets
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/bitty/core
-  )
-  install(TARGETS cli
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
   )
 
@@ -126,6 +133,7 @@ if(BITTY_PACKAGING)
   )
 endif()
 
+# Tests
 include(CTest)
 if (BITTY_BUILD_TESTS)
   enable_testing()
@@ -147,7 +155,11 @@ if (BITTY_BUILD_TESTS)
     BITTY_SOURCE_DIR="${CMAKE_SOURCE_DIR}"
   )
   target_link_libraries(BittyCaseTests PRIVATE
-    core parser ${ANTLR4_RUNTIME_TARGET} gtest_main
+    bitty::frontend
+    bitty::ast_interpreter
+    bitty::compiler
+    bitty::bc_interpreter
+    gtest_main
   )
 
   include(GoogleTest)
