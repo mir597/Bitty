@@ -7,6 +7,7 @@
 
 namespace bitty::BC {
 
+namespace {
 static const char* opName(Op op) {
   switch (op) {
     case Op::NOP:
@@ -60,6 +61,7 @@ static const char* opName(Op op) {
   }
   return "?";
 }
+}  // namespace
 
 std::string disassemble(const Module& m) {
   std::ostringstream out;

@@ -231,10 +231,10 @@ struct RetScan {
   bool hasRet = false, hasVoidRet = false, mustRet = false;
 };
 
-static RetScan scanBlock(const IL::BlockStmt& b);
-static RetScan scanStmt(const IL::Statement& s);
+RetScan scanBlock(const IL::BlockStmt& b);
+RetScan scanStmt(const IL::Statement& s);
 
-static RetScan scanBlock(const IL::BlockStmt& b) {
+RetScan scanBlock(const IL::BlockStmt& b) {
   RetScan out{};
   for (auto const& sp : b.statements) {
     RetScan i = scanStmt(*sp);
@@ -248,7 +248,7 @@ static RetScan scanBlock(const IL::BlockStmt& b) {
   return out;
 }
 
-static RetScan scanStmt(const IL::Statement& s) {
+RetScan scanStmt(const IL::Statement& s) {
   return std::visit(
       [&](auto const& st) -> RetScan {
         using T = std::decay_t<decltype(st)>;

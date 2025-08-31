@@ -12,7 +12,7 @@ namespace bitty::BC {
 using Value = LiteralValue;
 
 namespace {
-static BinaryOp sym(Op op) {
+BinaryOp sym(Op op) {
   switch (op) {
     case Op::ADD:
       return BinaryOp::ADD;

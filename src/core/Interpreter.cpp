@@ -224,7 +224,7 @@ struct VM {
         s.node);
   }
 
-  static void execBlockInherited(VM& vm, const AST::BlockStmt& b) {
+  void execBlockInherited(VM& vm, const AST::BlockStmt& b) {
     ScopeGuard guard(vm);
     for (auto const& sp : b.statements) {
       vm.exec(*sp);

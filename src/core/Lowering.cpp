@@ -80,13 +80,6 @@ struct Ctx {
     cur().statements.push_back(std::move(s));
   }
 
-  static std::string lhsNameOrThrow(const ASTExpr& e) {
-    if (auto v = std::get_if<AST::VariableExpr>(&e.node)) {
-      return v->name;
-    }
-    throw std::runtime_error("assignment target must be an identifier");
-  }
-
   static bool isLeaf(const IL::Expression& e) {
     return std::holds_alternative<IL::LiteralExpr>(e.node) ||
            std::holds_alternative<IL::VariableExpr>(e.node);

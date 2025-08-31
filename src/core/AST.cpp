@@ -81,11 +81,11 @@ inline int precOf(const AST::ExpressionNode& n) {
       n);
 }
 
-static bool isBlockStmt(const AST::Statement& s) {
+bool isBlockStmt(const AST::Statement& s) {
   return std::holds_alternative<AST::BlockStmt>(s.node);
 }
 
-static bool isIfWithoutElse(const AST::Statement& s) {
+bool isIfWithoutElse(const AST::Statement& s) {
   if (!std::holds_alternative<AST::IfStmt>(s.node)) {
     return false;
   }
@@ -93,7 +93,7 @@ static bool isIfWithoutElse(const AST::Statement& s) {
   return !is.elseBranch;
 }
 
-static std::string formatDoubleLiteral(double x) {
+std::string formatDoubleLiteral(double x) {
   std::ostringstream oss;
   oss << std::setprecision(std::numeric_limits<double>::max_digits10);
   oss << x;
@@ -117,7 +117,7 @@ static std::string formatDoubleLiteral(double x) {
   return s;
 }
 
-static void emitLiteral(const LiteralValue& v, std::ostream& os) {
+void emitLiteral(const LiteralValue& v, std::ostream& os) {
   std::visit(
       [&](auto const& val) {
         using T = std::decay_t<decltype(val)>;
@@ -161,9 +161,9 @@ static void emitLiteral(const LiteralValue& v, std::ostream& os) {
       v);
 }
 
-static void emitExpr(const AST::Expression& e, std::ostream& os);
+void emitExpr(const AST::Expression& e, std::ostream& os);
 
-static void emitExprNode(const AST::ExpressionNode& n, std::ostream& os) {
+void emitExprNode(const AST::ExpressionNode& n, std::ostream& os) {
   std::visit(
       [&](auto const& node) {
         using T = std::decay_t<decltype(node)>;
@@ -254,13 +254,13 @@ static void emitExprNode(const AST::ExpressionNode& n, std::ostream& os) {
       n);
 }
 
-static void emitExpr(const AST::Expression& e, std::ostream& os) {
+void emitExpr(const AST::Expression& e, std::ostream& os) {
   emitExprNode(e.node, os);
 }
 
-static void emitStmt(const AST::Statement& s, std::ostream& os, int lvl);
+void emitStmt(const AST::Statement& s, std::ostream& os, int lvl);
 
-static void emitBlock(const AST::BlockStmt& b, std::ostream& os, int lvl) {
+void emitBlock(const AST::BlockStmt& b, std::ostream& os, int lvl) {
   os << "{\n";
   for (auto const& sp : b.statements) {
     emitStmt(*sp, os, lvl + 1);
@@ -269,8 +269,7 @@ static void emitBlock(const AST::BlockStmt& b, std::ostream& os, int lvl) {
   os << "}";
 }
 
-static void emitStmtNode(const AST::StatementNode& n, std::ostream& os,
-                         int lvl) {
+void emitStmtNode(const AST::StatementNode& n, std::ostream& os, int lvl) {
   std::visit(
       [&](auto const& node) {
         using T = std::decay_t<decltype(node)>;
@@ -384,7 +383,7 @@ static void emitStmtNode(const AST::StatementNode& n, std::ostream& os,
       n);
 }
 
-static void emitStmt(const AST::Statement& s, std::ostream& os, int lvl) {
+void emitStmt(const AST::Statement& s, std::ostream& os, int lvl) {
   emitStmtNode(s.node, os, lvl);
 }
 }  // namespace

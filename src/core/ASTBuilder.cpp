@@ -11,6 +11,44 @@ using Parser = bitty::parser::BittyParser;
 using antlr4::tree::TerminalNode;
 using namespace bitty;
 
+namespace {
+std::string unescapeStringBody(std::string_view inner) {
+  std::string out;
+  out.reserve(inner.size());
+  for (size_t i = 0; i < inner.size(); ++i) {
+    char c = inner[i];
+    if (c == '\\' && i + 1 < inner.size()) {
+      char n = inner[i + 1];
+      switch (n) {
+        case '\\':
+          out.push_back('\\');
+          break;
+        case '"':
+          out.push_back('"');
+          break;
+        case 'n':
+          out.push_back('\n');
+          break;
+        case 't':
+          out.push_back('\t');
+          break;
+        case 'r':
+          out.push_back('\r');
+          break;
+        default:
+          out.push_back('\\');
+          out.push_back(n);
+          break;
+      }
+      ++i;
+    } else {
+      out.push_back(c);
+    }
+  }
+  return out;
+}
+}  // namespace
+
 AST::Program ASTBuilder::build(Parser::ProgramContext* program) {
   AST::Program out;
   for (auto* s : program->statement()) {
@@ -234,43 +272,6 @@ std::unique_ptr<AST::Expression> ASTBuilder::buildAssign(
   asn.value = buildExpression(e->rhs);
 
   return create<AST::Expression>(std::move(asn));
-}
-
-// ---------------- literals ----------------
-static std::string unescapeStringBody(std::string_view inner) {
-  std::string out;
-  out.reserve(inner.size());
-  for (size_t i = 0; i < inner.size(); ++i) {
-    char c = inner[i];
-    if (c == '\\' && i + 1 < inner.size()) {
-      char n = inner[i + 1];
-      switch (n) {
-        case '\\':
-          out.push_back('\\');
-          break;
-        case '"':
-          out.push_back('"');
-          break;
-        case 'n':
-          out.push_back('\n');
-          break;
-        case 't':
-          out.push_back('\t');
-          break;
-        case 'r':
-          out.push_back('\r');
-          break;
-        default:
-          out.push_back('\\');
-          out.push_back(n);
-          break;
-      }
-      ++i;
-    } else {
-      out.push_back(c);
-    }
-  }
-  return out;
 }
 
 LiteralValue ASTBuilder::buildLiteral(

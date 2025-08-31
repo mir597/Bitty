@@ -104,7 +104,7 @@ struct FnBuilder {
     }
   }
 
-  static Op binToOp(const BinaryOp& op) {
+  Op binToOp(const BinaryOp& op) {
     switch (op) {
       case BinaryOp::ADD:
         return Op::ADD;
@@ -133,7 +133,7 @@ struct FnBuilder {
     }
   }
 
-  static Op unToOp(const UnaryOp& op) {
+  Op unToOp(const UnaryOp& op) {
     switch (op) {
       case UnaryOp::UNM:
         return Op::UNM;
