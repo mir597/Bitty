@@ -8,9 +8,9 @@
 #include "compiler/ConstantPropagation.hpp"
 #include "compiler/IL2Bytecode.hpp"
 #include "compiler/Lowering.hpp"
-#include "core/BCInterpreter.hpp"
 #include "utils/ILVerify.hpp"
 #include "utils/TestUtils.hpp"
+#include "vm/BCInterpreter.hpp"
 
 using namespace bitty;
 

@@ -19,8 +19,8 @@
 #include "compiler/IL2Bytecode.hpp"
 #include "compiler/ILOptimize.hpp"
 #include "compiler/Lowering.hpp"
-#include "core/BCInterpreter.hpp"
 #include "frontend/ASTBuilder.hpp"
+#include "vm/BCInterpreter.hpp"
 
 using namespace bitty;
 

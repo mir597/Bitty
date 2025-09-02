@@ -81,7 +81,7 @@ target_compile_options(compiler PRIVATE -Wall -Wextra -Wpedantic)
 
 # BC Interpreter
 add_library(bc_interpreter STATIC
-  core/BCInterpreter.cpp
+  vm/BCInterpreter.cpp
 )
 add_library(bitty::bc_interpreter ALIAS bc_interpreter)
 

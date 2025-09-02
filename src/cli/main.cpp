@@ -16,9 +16,9 @@
 #include "compiler/ILOptimize.hpp"
 #include "compiler/Lowering.hpp"
 #include "compiler/TypeInference.hpp"
-#include "core/BCInterpreter.hpp"
 #include "frontend/ASTBuilder.hpp"
 #include "interpreter/Interpreter.hpp"
+#include "vm/BCInterpreter.hpp"
 
 using namespace bitty;
 

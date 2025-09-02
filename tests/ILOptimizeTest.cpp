@@ -11,9 +11,9 @@
 #include "common/IL.hpp"
 #include "compiler/IL2Bytecode.hpp"
 #include "compiler/ILOptimize.hpp"
-#include "core/BCInterpreter.hpp"
 #include "frontend/ASTBuilder.hpp"
 #include "utils/TestUtils.hpp"
+#include "vm/BCInterpreter.hpp"
 
 using namespace bitty;
 using namespace bitty::IL;

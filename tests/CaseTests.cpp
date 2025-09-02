@@ -13,11 +13,11 @@
 #include "compiler/ILOptimize.hpp"
 #include "compiler/Lowering.hpp"
 #include "compiler/TypeInference.hpp"
-#include "core/BCInterpreter.hpp"
 #include "frontend/ASTBuilder.hpp"
 #include "utils/ASTEqual.hpp"
 #include "utils/ILVerify.hpp"
 #include "utils/TestUtils.hpp"
+#include "vm/BCInterpreter.hpp"
 
 #ifndef BITTY_SOURCE_DIR
 #define BITTY_SOURCE_DIR "."

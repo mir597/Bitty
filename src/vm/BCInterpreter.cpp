@@ -1,4 +1,4 @@
-#include "core/BCInterpreter.hpp"
+#include "vm/BCInterpreter.hpp"
 
 #include <sstream>
 #include <stdexcept>
