@@ -1,4 +1,4 @@
-#include "compiler/Lowering.hpp"
+#include "compiler/AST2IL.hpp"
 
 #include <sstream>
 #include <stdexcept>
@@ -12,13 +12,6 @@
 using namespace bitty;
 
 namespace {
-template <class... Ts>
-struct overloaded : Ts... {
-  using Ts::operator()...;
-};
-template <class... Ts>
-overloaded(Ts...) -> overloaded<Ts...>;
-
 using ASTExpr = AST::Expression;
 using ASTStmt = AST::Statement;
 using ILExpr = IL::Expression;

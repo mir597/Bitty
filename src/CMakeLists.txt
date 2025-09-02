@@ -63,7 +63,7 @@ target_compile_options(ast_interpreter PRIVATE -Wall -Wextra -Wpedantic)
 
 # IL Translation/Optimization + BC Translation
 add_library(compiler STATIC
-  compiler/Lowering.cpp
+  compiler/AST2IL.cpp
   compiler/TypeInference.cpp
   compiler/ConstantPropagation.cpp
   compiler/ILOptimize.cpp

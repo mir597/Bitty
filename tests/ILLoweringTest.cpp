@@ -6,7 +6,7 @@
 #include "BittyParser.h"
 #include "antlr4-runtime.h"
 #include "common/AST.hpp"
-#include "compiler/Lowering.hpp"
+#include "compiler/AST2IL.hpp"
 #include "frontend/ASTBuilder.hpp"
 #include "utils/ASTEqual.hpp"
 #include "utils/ILVerify.hpp"

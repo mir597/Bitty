@@ -15,10 +15,10 @@
 #include "common/AST.hpp"
 #include "common/Bytecode.hpp"
 #include "common/IL.hpp"
+#include "compiler/AST2IL.hpp"
 #include "compiler/ConstantPropagation.hpp"
 #include "compiler/IL2Bytecode.hpp"
 #include "compiler/ILOptimize.hpp"
-#include "compiler/Lowering.hpp"
 #include "frontend/ASTBuilder.hpp"
 #include "vm/BCInterpreter.hpp"
 
